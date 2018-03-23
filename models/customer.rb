@@ -1,5 +1,6 @@
 require('pg')
 require_relative('../db/sqlrunner')
+require_relative('film')
 
 class Customer
 
@@ -61,14 +62,33 @@ class Customer
     return Film.map_items(films_array)
   end
 
-  def self.find_by_id(id)
-    sql = "SELECT * from customers
-           WHERE id = $1"
-    values = [id]
-    found_customer = SqlRunner.run(sql, values)
-    unless found_customer.values.empty?
-      return Customer.new(found_customer)
+  # def self.find_by_id(id)
+  #   sql = "SELECT * from customers
+  #          WHERE id = $1"
+  #   values = [id]
+  #   found_customer = SqlRunner.run(sql, values)
+  #   unless found_customer.values.empty?
+  #     return Customer.new(found_customer[0])
+  #   end
+  # end
+
+  def buy_ticket(film)
+    unless @funds < film.price
+      @funds -= film.price
+      update()
+      ticket = Ticket.new('customer_id'=>@id, 'film_id'=> film.id)
+      ticket.save()
+      return ticket
     end
+  end
+
+  #Check how many tickets were bought by a customer
+  def ticket_qty()
+    # sql = "SELECT COUNT(tickets.*) FROM tickets
+    #       WHERE tickets.customer_id = $1"
+    # values = [@id]
+    # return SqlRunner.run(sql, values)[0]['count'].to_i
+    booked_films.length()
   end
 
 end

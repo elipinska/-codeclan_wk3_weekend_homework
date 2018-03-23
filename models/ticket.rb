@@ -12,13 +12,13 @@ class Ticket
   end
 
   def save()
-    sql = "INSERT INTO tickets
-           (customer_id, film_id)
-           VALUES
-           ($1, $2)
-           RETURNING id;"
-    values = @customer_id, @film_id
-    @id = SqlRunner.run(sql, values)[0]['id']
+      sql = "INSERT INTO tickets
+             (customer_id, film_id)
+             VALUES
+             ($1, $2)
+             RETURNING id;"
+      values = @customer_id, @film_id
+      @id = SqlRunner.run(sql, values)[0]['id']
   end
 
   def self.all()

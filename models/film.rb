@@ -61,6 +61,25 @@ class Film
     return Customer.map_items(customers_array)
   end
 
+  # def self.find_by_id(id)
+  #   sql = "SELECT * from films
+  #          WHERE id = $1"
+  #   values = [id]
+  #   found_film = SqlRunner.run(sql, values)
+  #   unless found_film.values.empty?
+  #     return Film.new(found_film[0])
+  #   end
+  # end
+
+#Check how many customers are going to watch a certain film
+  def audience_nr()
+    # sql = "SELECT COUNT(tickets.*) FROM tickets
+    #       WHERE tickets.film_id = $1"
+    # values = [@id]
+    # return SqlRunner.run(sql, values)[0]['count'].to_i
+    audience.length()
+  end
+
 
 
 end
