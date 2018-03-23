@@ -74,7 +74,7 @@ class Customer
   end
 
   def buy_ticket(screening)
-    unless @funds < screening.price
+    unless @funds < screening.price || !screening.seats_available?
       @funds -= screening.price
       update()
       ticket = Ticket.new('customer_id'=>@id, 'screening_id'=> screening.id)

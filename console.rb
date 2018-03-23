@@ -38,7 +38,7 @@ screening2.save()
 screening3 = Screening.new({'time'=>'2018-03-04 18:00:00', 'film_id'=>film2.id, 'price'=>8, 'max_seats'=>30})
 screening3.save()
 
-screening4 = Screening.new({'time'=>'2018-03-08 18:00:00', 'film_id'=>film2.id, 'price'=>10, 'max_seats'=>30})
+screening4 = Screening.new({'time'=>'2018-03-08 18:00:00', 'film_id'=>film2.id, 'price'=>10, 'max_seats'=>20})
 screening4.save()
 
 screening5 = Screening.new({'time'=>'2018-03-08 13:20:00', 'film_id'=>film2.id, 'price'=>6, 'max_seats'=>30})
@@ -171,3 +171,17 @@ puts ""
 #Write a method that finds out what is the most popular time (most tickets sold) for a given film
 puts "Most popular screening time for film2"
 p film2.most_popular_time()
+puts ""
+
+# Limit the available tickets for screenings.
+puts "Attempting to buy a ticket for a screening with no seats available"
+screening4.max_seats = 3
+screening4.update()
+
+puts "Checking if there are available seats for screening4"
+p screening4.seats_available?
+puts ""
+
+puts "Ticket should not be created - expecting nil"
+ticket11 = customer5.buy_ticket(screening4)
+p ticket11

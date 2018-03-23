@@ -64,4 +64,13 @@ class Screening
     end
   end
 
+  def seats_available?
+    sql = "SELECT COUNT(tickets.id) FROM tickets
+          WHERE tickets.screening_id = $1"
+    values = [@id]
+    tickets_sold = SqlRunner.run(sql, values)[0]['count'].to_i
+
+    return tickets_sold < @max_seats
+  end
+
 end
