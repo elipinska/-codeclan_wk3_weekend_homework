@@ -137,10 +137,10 @@ ticket10 = customer2.buy_ticket(screening1)
 
 #Test other MVC methods
 
-# puts "Customer 4's booked films"
-# p customer4.booked_films()
-# puts ""
-#
+puts "Customer 4's booked films"
+p customer4.booked_films()
+puts ""
+
 puts "Film 2's audience (including duplicates for customers who went to see a film more than once)"
 p film2.audience()
 puts ""
