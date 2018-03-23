@@ -83,7 +83,6 @@ class Customer
     end
   end
 
-  #Check how many tickets were bought by a customer
   def ticket_qty()
     # sql = "SELECT COUNT(tickets.*) FROM tickets
     #       WHERE tickets.customer_id = $1"

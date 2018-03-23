@@ -53,8 +53,19 @@ class Film
 
   def audience
     sql = "SELECT customers.* FROM customers
-          INNER JOIN tickets ON tickets.customer_id = customers.id
-          WHERE tickets.film_id = $1;"
+          INNER JOIN tickets ON customers.id = tickets.customer_id
+          INNER JOIN screenings ON tickets.screening_id = screenings.id
+          WHERE screenings.film_id = $1;"
+    values = [@id]
+    customers_array = SqlRunner.run(sql, values)
+    return Customer.map_items(customers_array)
+  end
+
+  def audience_no_duplicates()
+    sql = "SELECT DISTINCT customers.* FROM customers
+          INNER JOIN tickets ON customers.id = tickets.customer_id
+          INNER JOIN screenings ON tickets.screening_id = screenings.id
+          WHERE screenings.film_id = $1;"
     values = [@id]
     customers_array = SqlRunner.run(sql, values)
     return Customer.map_items(customers_array)
@@ -70,13 +81,32 @@ class Film
     end
   end
 
+
 #Check how many customers are going to watch a certain film
   def audience_nr()
-    # sql = "SELECT COUNT(tickets.*) FROM tickets
-    #       WHERE tickets.film_id = $1"
+    # sql = "SELECT COUNT(customers.*) FROM customers
+    #       INNER JOIN tickets ON customers.id = tickets.customer_id
+    #       INNER JOIN screenings ON tickets.screening_id = screenings.id
+    #       WHERE screenings.film_id = $1;"
     # values = [@id]
     # return SqlRunner.run(sql, values)[0]['count'].to_i
     audience.length()
+  end
+
+  def audience_nr_no_duplicates
+    audience_no_duplicates.length()
+  end
+
+  def most_popular_time
+    sql = "SELECT screenings.time::time FROM tickets
+          INNER JOIN screenings ON tickets.screening_id = screenings.id
+          INNER JOIN films ON screenings.film_id = films.id
+          WHERE films.id = $1
+          GROUP BY screenings.time::time
+          ORDER BY COUNT(tickets.id) DESC
+          LIMIT 1"
+    values = [@id]
+    return SqlRunner.run(sql, values)[0]['time']
   end
 
 

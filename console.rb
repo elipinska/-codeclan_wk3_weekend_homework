@@ -64,6 +64,9 @@ ticket9 = customer4.buy_ticket(screening1)
 
 ticket10 = customer4.buy_ticket(screening4)
 
+#This tickets should not be created as the customer2 has insufficient funds
+ticket10 = customer2.buy_ticket(screening1)
+
 
 #Test CRUD
 
@@ -134,25 +137,37 @@ ticket10 = customer4.buy_ticket(screening4)
 
 #Test other MVC methods
 
-puts "Customer 4's booked films"
-p customer4.booked_films()
-puts ""
-
-# puts "Film 2's audience"
-# p film2.audience()
+# puts "Customer 4's booked films"
+# p customer4.booked_films()
 # puts ""
+#
+puts "Film 2's audience (including duplicates for customers who went to see a film more than once)"
+p film2.audience()
+puts ""
+puts "Film 2's audience (without duplicates)"
+p film2.audience_no_duplicates()
+puts ""
 
 #Tests for extensions
 
-# puts "Customer 4's funds decrease to 2 after buying 3 tickets"
-# puts "funds"
-# p Customer.find_by_id(4).funds
-# puts ""
-# puts "Ticket qty"
-# p customer4.ticket_qty()
-# puts ""
-#
-#
-# puts "Audience number for film 3"
-# puts film2.audience_nr
-# puts ""
+# Buying tickets should decrease the funds of the customer by the price
+puts "Customer 4's funds decrease to 4 after buying 2 tickets"
+puts "funds"
+p Customer.find_by_id(2).funds
+puts ""
+# Check how many tickets were bought by a customer
+puts "Ticket qty"
+p Customer.find_by_id(2).ticket_qty()
+puts ""
+
+#Check how many customers are going to watch a certain film
+puts "Number of customers going to see The Hunt For the Wilderpeople (including duplicates for customers who went to see a film more than once)"
+puts film2.audience_nr
+puts ""
+puts "Number of customers going to see The Hunt For the Wilderpeople (excluding duplicates)"
+puts film2.audience_nr_no_duplicates
+puts ""
+
+#Write a method that finds out what is the most popular time (most tickets sold) for a given film
+puts "Most popular screening time for film2"
+p film2.most_popular_time()
