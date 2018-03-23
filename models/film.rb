@@ -3,22 +3,21 @@ require_relative('../db/sqlrunner')
 
 class Film
 
-  attr_accessor :title, :price
+  attr_accessor :title
   attr_reader :id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @title = options['title']
-    @price = options['price'].to_i
   end
 
   def save()
     sql = "INSERT INTO films
-           (title, price)
+           (title)
            VALUES
-           ($1, $2)
+           ($1)
            RETURNING id;"
-    values = @title, @price
+    values = [@title]
     @id = SqlRunner.run(sql, values)[0]['id']
   end
 
@@ -34,9 +33,9 @@ class Film
 
   def update()
     sql = "UPDATE films
-           SET (title, price) = ($1, $2)
-           WHERE id = $3"
-    values = [@title, @price, @id]
+           SET title = $1
+           WHERE id = $2"
+    values = [@title, @id]
     SqlRunner.run(sql, values)
   end
 
@@ -61,15 +60,15 @@ class Film
     return Customer.map_items(customers_array)
   end
 
-  # def self.find_by_id(id)
-  #   sql = "SELECT * from films
-  #          WHERE id = $1"
-  #   values = [id]
-  #   found_film = SqlRunner.run(sql, values)
-  #   unless found_film.values.empty?
-  #     return Film.new(found_film[0])
-  #   end
-  # end
+  def self.find_by_id(id)
+    sql = "SELECT * from films
+           WHERE id = $1"
+    values = [id]
+    found_film = SqlRunner.run(sql, values)
+    unless found_film.values.empty?
+      return Film.new(found_film[0])
+    end
+  end
 
 #Check how many customers are going to watch a certain film
   def audience_nr()

@@ -55,28 +55,29 @@ class Customer
 
   def booked_films
     sql = "SELECT films.* FROM films
-          INNER JOIN tickets ON tickets.film_id = films.id
+          INNER JOIN screenings ON films.id = screenings.film_id
+          INNER JOIN tickets ON screenings.id = tickets.screening_id
           WHERE tickets.customer_id = $1;"
     values = [@id]
     films_array = SqlRunner.run(sql, values)
     return Film.map_items(films_array)
   end
 
-  # def self.find_by_id(id)
-  #   sql = "SELECT * from customers
-  #          WHERE id = $1"
-  #   values = [id]
-  #   found_customer = SqlRunner.run(sql, values)
-  #   unless found_customer.values.empty?
-  #     return Customer.new(found_customer[0])
-  #   end
-  # end
+  def self.find_by_id(id)
+    sql = "SELECT * from customers
+           WHERE id = $1"
+    values = [id]
+    found_customer = SqlRunner.run(sql, values)
+    unless found_customer.values.empty?
+      return Customer.new(found_customer[0])
+    end
+  end
 
-  def buy_ticket(film)
-    unless @funds < film.price
-      @funds -= film.price
+  def buy_ticket(screening)
+    unless @funds < screening.price
+      @funds -= screening.price
       update()
-      ticket = Ticket.new('customer_id'=>@id, 'film_id'=> film.id)
+      ticket = Ticket.new('customer_id'=>@id, 'screening_id'=> screening.id)
       ticket.save()
       return ticket
     end

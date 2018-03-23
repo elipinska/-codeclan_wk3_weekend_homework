@@ -2,6 +2,7 @@ require('pry')
 require_relative('models/customer')
 require_relative('models/film')
 require_relative('models/ticket')
+require_relative('models/screening')
 
 
 customer1 = Customer.new({'name'=>'Kasia', 'funds'=>'30'})
@@ -19,130 +20,130 @@ customer4.save()
 customer5 = Customer.new({'name'=>'Kasia Agrafka', 'funds'=>'40'})
 customer5.save()
 
-film1 = Film.new({'title'=>'Thor Ragnarok', 'price'=>'6'})
+film1 = Film.new({'title'=>'Thor Ragnarok'})
 film1.save()
 
-film2 = Film.new({'title'=>'Hunt for the Wilderpeople', 'price'=>'10'})
+film2 = Film.new({'title'=>'Hunt for the Wilderpeople'})
 film2.save()
 
-film3 = Film.new({'title'=>'The Shape of Water', 'price'=>'12'})
+film3 = Film.new({'title'=>'The Shape of Water'})
 film3.save()
 
-ticket1 = customer1.buy_ticket(film1)
+screening1 = Screening.new({'time'=>'2018-03-05 10:30:00', 'film_id'=>film1.id, 'price'=>6, 'max_seats'=>30})
+screening1.save()
 
-ticket2 = customer2.buy_ticket(film2)
+screening2 = Screening.new({'time'=>'2018-03-06 15:00:00', 'film_id'=>film3.id, 'price'=>6, 'max_seats'=>15})
+screening2.save()
 
-ticket3 = customer3.buy_ticket(film2)
+screening3 = Screening.new({'time'=>'2018-03-04 18:00:00', 'film_id'=>film2.id, 'price'=>8, 'max_seats'=>30})
+screening3.save()
 
-ticket4 = customer4.buy_ticket(film1)
+screening4 = Screening.new({'time'=>'2018-03-08 18:00:00', 'film_id'=>film2.id, 'price'=>10, 'max_seats'=>30})
+screening4.save()
 
-ticket5 = customer5.buy_ticket(film1)
+screening5 = Screening.new({'time'=>'2018-03-08 13:20:00', 'film_id'=>film2.id, 'price'=>6, 'max_seats'=>30})
+screening5.save()
 
-ticket6 = customer5.buy_ticket(film3)
+ticket1 = customer1.buy_ticket(screening1)
 
-ticket7 = customer4.buy_ticket(film3)
+ticket2 = customer1.buy_ticket(screening4)
 
-ticket8 = customer4.buy_ticket(film2)
+ticket3 = customer2.buy_ticket(screening5)
 
-ticket9 = customer4.buy_ticket(film1)
-# ticket1 = Ticket.new('customer_id'=> customer1.id, 'film_id'=> film1.id)
-# ticket1.save()
-#
-# ticket2 = Ticket.new('customer_id'=> customer2.id, 'film_id'=> film2.id)
-# ticket2.save()
-#
-# ticket3 = Ticket.new('customer_id'=> customer3.id, 'film_id'=> film2.id)
-# ticket3.save()
-#
-# ticket4 = Ticket.new('customer_id'=> customer4.id, 'film_id'=> film1.id)
-# ticket4.save()
-#
-# ticket5 = Ticket.new('customer_id'=> customer5.id, 'film_id'=> film1.id)
-# ticket5.save()
-#
-# ticket6 = Ticket.new('customer_id'=> customer5.id, 'film_id'=> film3.id)
-# ticket6.save()
-#
-# ticket7 = Ticket.new('customer_id'=> customer4.id, 'film_id'=> film3.id)
-# ticket7.save()
-#
-# ticket8 = Ticket.new('customer_id'=> customer4.id, 'film_id'=> film2.id)
-# ticket8.save()
+ticket4 = customer3.buy_ticket(screening3)
 
-# #Ticket 9 should not be created as customer4 won't have enough money
-# ticket9 = Ticket.new('customer_id'=> customer4.id, 'film_id'=> film1.id)
-# ticket9.save()
+ticket5 = customer2.buy_ticket(screening4)
 
+ticket6 = customer5.buy_ticket(screening3)
 
+ticket7 = customer5.buy_ticket(screening5)
+
+ticket8 = customer4.buy_ticket(screening2)
+
+ticket9 = customer4.buy_ticket(screening1)
+
+ticket10 = customer4.buy_ticket(screening4)
 
 
 #Test CRUD
-#
+
 # puts "All customers"
 # p Customer.all()
+# p Customer.all().length
 # puts ""
 #
 # puts "All films"
 # p Film.all()
+# p Film.all().length
 # puts ""
 #
 # puts "All tickets"
 # p Ticket.all()
+# p Ticket.all().length
 # puts ""
 #
-# puts "Update customer, film and ticket"
+# puts "Update customer, screening, film and ticket"
 # customer1.name = "Kasia Boczek"
 # customer1.update()
-#
-# film1.price = "8"
-# film1.update()
-# p Customer.all()
-# puts ""
-# p Film.all()
+# p Customer.find_by_id(customer1.id)
 # puts ""
 #
-# ticket2.film_id = film1.id
+# screening1.time = "2018-03-05 11:30:00"
+# screening1.update()
+# p Screening.find_by_id(screening1.id)
+# puts ""
+#
+# film2.title = "Hunt For The Wilderpeople"
+# film2.update()
+# p Film.find_by_id(film2.id)
+# puts ""
+#
+# ticket2.screening_id = screening1.id
 # ticket2.update()
-# p Ticket.all()
+# p Ticket.find_by_id(ticket2.id)
 # puts ""
 #
-# puts "Delete one film, one customer and one tickets"
+# puts "Delete one ticket, one screening, one customer and one film"
 # ticket2.delete()
-# p Ticket.all()
+# p Ticket.all().length
+# puts ""
+# screening2.delete()
+# p Screening.all().length
 # puts ""
 # customer3.delete()
-# p Customer.all()
+# p Customer.all().length
 # puts ""
 # film2.delete()
-# p Film.all()
+# p Film.all().length
 # puts ""
 #
 #
-# puts "Delete all customers, films and tickets"
+# puts "Delete all customers, screenings, films and tickets"
 # Customer.delete_all()
 # Film.delete_all()
 # Ticket.delete_all()
+# Screening.delete_all()
 # p Customer.all()
 # puts ""
 # p Film.all()
 # puts ""
 # p Ticket.all()
 # puts ""
-
-# puts "Customer 2's booked films"
-# p customer2.booked_films()
+# p Screening.all()
 # puts ""
-#
+
+#Test other MVC methods
+
+puts "Customer 4's booked films"
+p customer4.booked_films()
+puts ""
+
 # puts "Film 2's audience"
 # p film2.audience()
 # puts ""
 
 #Tests for extensions
-# puts "Testing find_by_id methods for customers and films"
-# p Customer.find_by_id(2)
-# p Film.find_by_id(2)
-# puts ""
-#
+
 # puts "Customer 4's funds decrease to 2 after buying 3 tickets"
 # puts "funds"
 # p Customer.find_by_id(4).funds

@@ -10,7 +10,7 @@ It's enough if you can call your methods in pry, don't worry about an interface.
 
   - Films
     - title
-    - price
+    - price //For the advanced extension, I moved the price to screening to make it more relevant to real life
 
   - Tickets
     - customer_id
@@ -31,12 +31,4 @@ It's enough if you can call your methods in pry, don't worry about an interface.
   - Write a method that finds out what is the most popular time (most tickets sold) for a given film
   - Limit the available tickets for screenings.
   - Add any other extensions you think would be great to have at a cinema!
-sa
 
-## PDA Reminder
-
-Remember to gather evidence for your PDA this week. This should only take 5 minutes: 
-
-- Go to your [PDA Checklist](https://github.com/codeclan/pda/blob/master/Student%20Checklist/Student%20Checklist.pdf)
-
-- Submit your PDA evidence (screenshots, etc.) to your own PDA repo 
